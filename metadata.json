@@ -1,0 +1,6 @@
+{
+  "name": "FixMyArea - Civic Issue Reporting & Resolution Portal",
+  "description": "Civic engagement platform enabling citizens to report community issues and authorities to track, assign, and resolve municipal problems in real-time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
