@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { t } from '../translations';
+import appIcon from '../assets/images/fixmyarea_app_icon_1792744699484.jpg';
 import { 
   Building2, 
   Globe, 
@@ -27,10 +28,12 @@ export const Navbar: React.FC = () => {
             onClick={() => navigate('/')}
             className="flex items-center gap-3 cursor-pointer group select-none"
           >
-            {/* Orange square logo with letter F */}
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-600 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-orange-500/25 group-hover:scale-105 transition-transform">
-              F
-            </div>
+            {/* App Icon Logo */}
+            <img 
+              src={appIcon} 
+              alt="FixMyArea Logo" 
+              className="w-9 h-9 rounded-xl shadow-md border border-blue-500/30 object-cover group-hover:scale-105 transition-transform" 
+            />
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-lg sm:text-xl tracking-tight text-white">
@@ -46,26 +49,34 @@ export const Navbar: React.FC = () => {
           {/* Right Controls: Only Language Toggle (Login removed from top bar as requested) */}
           <div className="flex items-center gap-2 sm:gap-3">
             
-            {/* Language Toggle (EN | UR) */}
+            {/* Language Toggle (EN | اردو) */}
             <button
               onClick={toggleLanguage}
               title="Toggle Language: English / اردو"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs transition-colors cursor-pointer"
             >
               <Globe className="w-3.5 h-3.5 text-amber-400" />
-              <span className={language === 'ur' ? 'text-amber-400 font-bold' : 'text-slate-200'}>
-                {language === 'en' ? 'EN' : 'اردو'}
-              </span>
+              <span className={language === 'en' ? 'text-amber-400 font-black' : 'text-slate-400 font-semibold'}>EN</span>
+              <span className="text-slate-600">|</span>
+              <span className={language === 'ur' ? 'text-amber-400 font-black' : 'text-slate-400 font-semibold'}>اردو</span>
             </button>
 
-            {/* If logged in, show user tag and logout */}
-            {user && (
+            {/* If logged in, show user tag and logout, else show Sign In */}
+            {user ? (
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => navigate(user.role === 'Authority' ? '/authority' : '/home')}
-                  className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white font-medium hover:bg-slate-700"
+                  className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm ${
+                    user.role === 'Authority' 
+                      ? 'bg-indigo-950/90 text-indigo-300 border border-indigo-500/70 hover:bg-indigo-900' 
+                      : 'bg-amber-950/90 text-amber-300 border border-amber-500/70 hover:bg-amber-900'
+                  }`}
+                  title={language === 'ur' ? 'اپنے پورٹل میں داخل ہوں' : 'Enter Dashboard'}
                 >
-                  {user.name.split(' ')[0]} ({user.role === 'Authority' ? (language === 'ur' ? 'انتظامیہ' : 'Authority') : (language === 'ur' ? 'شہری' : 'Citizen')})
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>
+                    {user.name} ({user.role === 'Authority' ? (language === 'ur' ? 'بلدیاتی افسر' : 'Authority') : (language === 'ur' ? 'شہری' : 'Citizen')})
+                  </span>
                 </button>
                 <button
                   onClick={handleLogout}
@@ -75,6 +86,13 @@ export const Navbar: React.FC = () => {
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
+            ) : (
+              <button
+                onClick={() => navigate('/login?role=Citizen')}
+                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-xs shadow-md transition-all cursor-pointer"
+              >
+                {language === 'ur' ? 'سائن ان کریں' : 'Sign In'}
+              </button>
             )}
 
           </div>

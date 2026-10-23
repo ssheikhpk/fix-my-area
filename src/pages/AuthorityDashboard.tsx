@@ -147,13 +147,17 @@ export const AuthorityDashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             
-            {/* Title & Badge */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30">
+            {/* Title & Badge (Clickable to navigate to Front Landing Page '/') */}
+            <div 
+              onClick={() => navigate('/')}
+              className="flex items-center gap-3 cursor-pointer group select-none"
+              title={language === 'ur' ? 'مین پیج پر جائیں' : 'Go to Front Landing Page'}
+            >
+              <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30 group-hover:scale-105 transition-transform">
                 <Building2 className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-2">
+                <h1 className="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-2 group-hover:text-amber-300 transition-colors">
                   <span>{t('authorityPortalTitle', language)}</span>
                   <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-bold hidden sm:inline">
                     {language === 'ur' ? 'کراچی انتظامیہ' : 'Internal Official'}
@@ -207,10 +211,12 @@ export const AuthorityDashboard: React.FC = () => {
               <button
                 type="button"
                 onClick={toggleLanguage}
-                className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 <Globe className="w-3.5 h-3.5 text-amber-400" />
-                <span>{language === 'en' ? 'اردو' : 'EN'}</span>
+                <span className={language === 'en' ? 'text-amber-400 font-black' : 'text-slate-400 font-semibold'}>EN</span>
+                <span className="text-slate-600">|</span>
+                <span className={language === 'ur' ? 'text-amber-400 font-black' : 'text-slate-400 font-semibold'}>اردو</span>
               </button>
 
               <button

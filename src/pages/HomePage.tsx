@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
-  const { reports, language } = useApp();
+  const { reports, language, user } = useApp();
   const navigate = useNavigate();
 
   // Metrics
@@ -76,7 +76,7 @@ export const HomePage: React.FC = () => {
         {/* Citizen Streamlined Feature Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           
-          {/* Card 1: Direct Report (Written & Photo) */}
+          {/* Card 1: Direct Written Report */}
           <div
             onClick={() => navigate('/report')}
             className="group bg-[#0a1122] hover:bg-[#0e172e] rounded-3xl p-6 sm:p-7 border-2 border-amber-500 hover:border-amber-400 transition-all cursor-pointer shadow-xl shadow-amber-500/10 flex flex-col justify-between"

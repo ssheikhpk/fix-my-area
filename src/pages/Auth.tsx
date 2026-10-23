@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { Role } from '../types';
 import { t } from '../translations';
+import appIcon from '../assets/images/fixmyarea_app_icon_1792744699484.jpg';
 import { 
   Building2, 
   ShieldCheck, 
@@ -51,7 +52,7 @@ export const Auth: React.FC = () => {
       }
 
       if (selectedRole === 'Citizen') {
-        navigate('/');
+        navigate('/home');
       } else {
         navigate('/authority');
       }
@@ -62,16 +63,6 @@ export const Auth: React.FC = () => {
     }
   };
 
-  const handleQuickDemo = (role: Role) => {
-    if (role === 'Citizen') {
-      loginUser('ali.raza@karachi.pk', 'Citizen', 'Ali Raza');
-      navigate('/');
-    } else {
-      loginUser('director.kmc@karachi.gov.pk', 'Authority', 'Engr. Tariq Mahmood (KMC Director)');
-      navigate('/authority');
-    }
-  };
-
   return (
     <div 
       dir={language === 'ur' ? 'rtl' : 'ltr'}
@@ -79,13 +70,23 @@ export const Auth: React.FC = () => {
     >
       
       {/* Top Controls */}
-      <div className={`absolute top-6 ${language === 'ur' ? 'left-6' : 'right-6'} flex items-center gap-2`}>
+      <div className="w-full max-w-md flex items-center justify-between mb-6">
+        <button
+          onClick={() => navigate('/')}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs font-bold text-slate-300 transition-all cursor-pointer hover:border-amber-500/50 shadow-md"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 text-amber-400" />
+          <span>{language === 'ur' ? 'اصلی صفحہ پر واپس جائیں' : 'Back to Main Page'}</span>
+        </button>
+
         <button
           onClick={toggleLanguage}
           className="px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 hover:bg-slate-800 text-xs font-bold text-slate-200 transition-all cursor-pointer flex items-center gap-1.5"
         >
           <Globe className="w-3.5 h-3.5 text-amber-400" />
-          <span>{language === 'en' ? 'اردو' : 'EN'}</span>
+          <span className={language === 'en' ? 'text-amber-400 font-black' : 'text-slate-400 font-semibold'}>EN</span>
+          <span className="text-slate-600">|</span>
+          <span className={language === 'ur' ? 'text-amber-400 font-black' : 'text-slate-400 font-semibold'}>اردو</span>
         </button>
       </div>
 
@@ -93,9 +94,11 @@ export const Auth: React.FC = () => {
         
         {/* App Title */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-slate-950 font-black text-2xl shadow-xl shadow-amber-500/20 mb-3">
-            F
-          </div>
+          <img 
+            src={appIcon} 
+            alt="FixMyArea" 
+            className="w-16 h-16 rounded-2xl shadow-xl shadow-blue-900/40 border border-blue-500/30 object-cover mx-auto mb-3" 
+          />
           <h1 className="text-3xl font-black tracking-tight text-white flex items-center justify-center gap-2">
             {t('appName', language)}
           </h1>
@@ -135,44 +138,61 @@ export const Auth: React.FC = () => {
             </button>
           </div>
 
-          {/* Role Selector Buttons (Citizen vs Authority) */}
+          {/* Single Role Banner for Selected Account Type */}
           <div className="mb-5">
-            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-              {language === 'ur' ? 'اکاؤنٹ کی قسم منتخب کریں' : 'Choose Account Type'}
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedRole('Citizen');
-                  if (isLoginMode) setEmail('citizen.ali@karachi.pk');
-                }}
-                className={`flex items-center justify-center gap-2 p-3 rounded-2xl border-2 transition-all cursor-pointer ${
-                  selectedRole === 'Citizen'
-                    ? 'border-amber-500 bg-amber-500/10 text-amber-300 font-bold'
-                    : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
-                }`}
-              >
-                <UserCheck className="w-4 h-4 text-amber-400" />
-                <span className="text-xs sm:text-sm">{t('citizen', language)}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedRole('Authority');
-                  if (isLoginMode) setEmail('director.kmc@karachi.gov.pk');
-                }}
-                className={`flex items-center justify-center gap-2 p-3 rounded-2xl border-2 transition-all cursor-pointer ${
-                  selectedRole === 'Authority'
-                    ? 'border-indigo-500 bg-indigo-500/10 text-indigo-300 font-bold'
-                    : 'border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700'
-                }`}
-              >
-                <Building2 className="w-4 h-4 text-indigo-400" />
-                <span className="text-xs sm:text-sm">{t('authority', language)}</span>
-              </button>
-            </div>
+            {selectedRole === 'Citizen' ? (
+              <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/40 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center font-bold shrink-0">
+                    <UserCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-extrabold text-amber-300">
+                      {language === 'ur' ? 'شہری سائن ان (Citizen)' : 'Citizen Sign In'}
+                    </h3>
+                    <p className="text-[11px] text-slate-300">
+                      {language === 'ur' ? 'شہری پورٹل میں داخل ہوں' : 'Access Citizen Portal & track reports'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedRole('Authority');
+                    if (isLoginMode) setEmail('director.kmc@karachi.gov.pk');
+                  }}
+                  className="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 hover:underline cursor-pointer shrink-0 pl-2"
+                >
+                  {language === 'ur' ? 'انتظامیہ سائن ان' : 'Switch to Authority'}
+                </button>
+              </div>
+            ) : (
+              <div className="p-3.5 rounded-2xl bg-indigo-500/10 border border-indigo-500/40 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 flex items-center justify-center font-bold shrink-0">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-extrabold text-indigo-300">
+                      {language === 'ur' ? 'بلدیاتی انتظامیہ سائن ان (Authority)' : 'City Authority Sign In'}
+                    </h3>
+                    <p className="text-[11px] text-slate-300">
+                      {language === 'ur' ? 'بلدیاتی کمانڈ کنسول' : 'Access KMC Command Console'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedRole('Citizen');
+                    if (isLoginMode) setEmail('citizen.ali@karachi.pk');
+                  }}
+                  className="text-[11px] font-bold text-amber-400 hover:text-amber-300 hover:underline cursor-pointer shrink-0 pl-2"
+                >
+                  {language === 'ur' ? 'شہری سائن ان' : 'Switch to Citizen'}
+                </button>
+              </div>
+            )}
           </div>
 
           {errorMsg && (
@@ -259,29 +279,6 @@ export const Auth: React.FC = () => {
               <ArrowRight className={`w-4 h-4 ${language === 'ur' ? 'rotate-180' : ''}`} />
             </button>
           </form>
-
-          {/* Quick 1-Click Demo Logins */}
-          <div className="mt-6 pt-5 border-t border-slate-800">
-            <p className="text-[10px] font-bold text-slate-400 text-center uppercase tracking-widest mb-2.5">
-              {language === 'ur' ? '⚡ فوری ۱ کلک ڈیمو رسائی' : '⚡ 1-Click Instant Demo Access'}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => handleQuickDemo('Citizen')}
-                className="py-2 px-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-bold text-center transition-colors cursor-pointer"
-              >
-                👤 {language === 'ur' ? 'بطور شہری لاگ ان' : 'Sign in as Citizen'}
-              </button>
-              <button
-                type="button"
-                onClick={() => handleQuickDemo('Authority')}
-                className="py-2 px-2.5 rounded-xl border border-indigo-500/40 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 text-xs font-bold text-center transition-colors cursor-pointer"
-              >
-                🏛️ {language === 'ur' ? 'بطور بلدیاتی افسر' : 'City Authority Sign In'}
-              </button>
-            </div>
-          </div>
 
         </div>
 

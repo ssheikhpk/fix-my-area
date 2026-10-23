@@ -13,7 +13,6 @@ import {
 } from '../translations';
 import { Report } from '../types';
 import { 
-  ArrowLeft, 
   Layers, 
   MapPin, 
   Clock, 
@@ -389,21 +388,9 @@ export const MapView: React.FC = () => {
       {/* FLOATING TOP CONTROL BAR (Completely interactive filter buttons) */}
       <div className="absolute top-3 left-3 right-3 z-[1000] flex flex-wrap items-center justify-between gap-2 pointer-events-auto">
         
-        {/* Left: Back button & Filter Pills */}
+        {/* Left: Filter Pills */}
         <div className="flex flex-wrap items-center gap-1.5 bg-[#0a1224]/95 p-1.5 rounded-2xl border border-slate-700/80 shadow-2xl backdrop-blur-md">
           
-          <button
-            type="button"
-            onClick={() => navigate('/home')}
-            className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 text-xs font-bold"
-            title={t('backToHome', language)}
-          >
-            <ArrowLeft className={`w-3.5 h-3.5 ${language === 'ur' ? 'rotate-180' : ''}`} />
-            <span className="hidden sm:inline">{t('backToHome', language)}</span>
-          </button>
-
-          <div className="h-5 w-px bg-slate-700 mx-1 hidden sm:block" />
-
           {/* Filter Pills */}
           <button
             type="button"
